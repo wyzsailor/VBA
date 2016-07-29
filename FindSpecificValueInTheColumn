@@ -1,0 +1,19 @@
+//This is also copied from stackoverflow 
+//find specific value in a specific column , you know how to modify it to meet your needs . 
+
+
+Sub FindMatchingValue()
+    Dim i As Integer, intValueToFind As Integer
+    intValueToFind = 12345
+    For i = 1 To 30    ' Revise the 500 to include all of your values
+        If Cells(i, 2).Value = intValueToFind Then
+            MsgBox ("Found value on row " & i)
+            Exit Sub
+        End If
+    Next i
+
+    ' This MsgBox will only show if the loop completes with no success
+    MsgBox ("Value not found in the range!")
+End Sub
+
+//This has been tested , works great !
