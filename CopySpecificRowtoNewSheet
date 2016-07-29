@@ -1,0 +1,43 @@
+//This is the code nippet copied from stackoverflow 
+//It will help find the specific rows in sheet1 and copy the specific rows into the new sheet2 
+//This can be quite handy , cause this problem is very common in daily work .
+
+
+Option Explicit
+Sub CheckRowsWithAutofilter()
+
+Dim DataBlock As Range, Dest As Range
+Dim LastRow As Long, LastCol As Long
+Dim SheetOne As Worksheet, SheetTwo As Worksheet
+
+'set references up-front
+Set SheetOne = ThisWorkbook.Worksheets("Sheet 1")
+Set SheetTwo = ThisWorkbook.Worksheets("Sheet 2")
+Set Dest = SheetTwo.Cells(1, 1) '<~ this is where we'll put the filtered data
+
+'identify the "data block" range, which is where
+'the rectangle of information that we'll apply
+'.autofilter to
+With SheetOne
+    LastRow = .Range("G" & .Rows.Count).End(xlUp).Row
+    LastCol = .Cells(1, .Columns.Count).End(xlToLeft).Column
+    Set DataBlock = .Range(.Cells(1, 1), .Cells(LastRow, LastCol))
+End With
+
+'apply the autofilter to column G (i.e. column 7)
+With DataBlock
+    .AutoFilter Field:=7, Criteria1:="=*Unknown*"
+    'copy the still-visible cells to sheet 2
+    .SpecialCells(xlCellTypeVisible).Copy Destination:=Dest
+End With
+
+'turn off the autofilter
+With SheetOne
+    .AutoFilterMode = False
+    If .FilterMode = True Then .ShowAllData
+End With
+
+End Sub
+
+
+//Not tested yet !
