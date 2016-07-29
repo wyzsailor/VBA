@@ -11,8 +11,8 @@ Dim LastRow As Long, LastCol As Long
 Dim SheetOne As Worksheet, SheetTwo As Worksheet
 
 'set references up-front
-Set SheetOne = ThisWorkbook.Worksheets("Sheet 1")
-Set SheetTwo = ThisWorkbook.Worksheets("Sheet 2")
+Set SheetOne = ThisWorkbook.Worksheets("Sheet1")
+Set SheetTwo = ThisWorkbook.Worksheets("Sheet2")
 Set Dest = SheetTwo.Cells(1, 1) '<~ this is where we'll put the filtered data
 
 'identify the "data block" range, which is where
