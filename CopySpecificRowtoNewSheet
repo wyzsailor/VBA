@@ -38,6 +38,48 @@ With SheetOne
 End With
 
 End Sub
+'***************************************************************************************************************************
+'The following code I modified  works good ,and I commented them heavily based on my understanding . 
+Option Explicit 'means no implicit variable declaration is allowed
+Sub CheckRowsWithAutofilter()
+'declare the objects we may need later
+Dim DataBlock As Range, Dest As Range
+Dim LastRow As Long, LastCol As Long
+Dim SheetOne As Worksheet, SheetTwo As Worksheet
 
+'set references up-front
+Set SheetOne = ThisWorkbook.Worksheets("Sheet1") 'Set a nickname for specific shee
+Set SheetTwo = ThisWorkbook.Worksheets("Sheet2")
+'Set Dest = SheetTwo.Cells(1, 1) '<~ this is where we'll put the filtered data
 
-//Not tested yet !
+'identify the "data block" range, which is where
+'the rectangle of information that we'll apply
+'.autofilter to
+With SheetOne
+    LastRow = .Range("G" & .Rows.Count).End(xlUp).Row 'get the boundary of target area
+    LastCol = .Cells(1, .Columns.Count).End(xlToLeft).Column   'get the boundary of target area
+    Set DataBlock = .Range(.Cells(1, 1), .Cells(LastRow, LastCol)) 'The area we are going to process
+End With
+'Create a string array ,by using the split function
+ Dim arrWsNames() As String: arrWsNames = Split("NiHong,ChinaJoy,HongKong", ",")
+ 
+Dim arrNo As Integer
+
+'apply the autofilter to column G (i.e. column 7)
+With DataBlock  'looping and processing
+      For arrNo = 0 To 2
+     .AutoFilter Field:=5, Criteria1:=arrWsNames(arrNo)
+     .SpecialCells(xlCellTypeVisible).Copy Destination:=SheetTwo.Cells(arrNo + 1, 1) 'copy visible cells to a location
+     SheetTwo.Rows(arrNo + 1).Delete  'delete specific line on sheet two
+     Next arrNo
+End With
+
+'turn off the autofiltervc
+With SheetOne
+    .AutoFilterMode = False  'Turn off the filter
+    'If .FilterMode = True Then .ShowAllData  'This line actually effects nothing to this Macro
+End With
+
+End Sub
+'I aint't going to give out the excel exmaple here ,since I almost created this myself,and besides the comments are pretty straightforward 
+
