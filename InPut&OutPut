@@ -1,0 +1,11 @@
+'Nothing special here just an input boex
+   Variable  = InputBox("Hint", "Title")
+
+'just use the Input Box 
+
+
+'OutPut message box 
+MsgBox Variable  'or 
+MsgBox("String") 'or 
+MsgBox("String",Variable)
+'
