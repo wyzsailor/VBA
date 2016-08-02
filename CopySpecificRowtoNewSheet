@@ -72,7 +72,7 @@ End With
 'apply the autofilter to column G (i.e. column 7)
 With DataBlock  'looping and processing
       For i = 0 To 2
-     .AutoFilter Field:=5, Criteria1:=arrWsNames(i)
+     .AutoFilter Field:=5, Criteria1:=arrWsNames(i) 'Change which column you wanna process ,  5 aka the Column G chosen .
      .SpecialCells(xlCellTypeVisible).Copy Destination:=SheetTwo.Cells(i + 1, 1) 'copy visible cells to a location
      SheetTwo.Rows(i + 1).Delete  'delete specific line on sheet two
      Next
