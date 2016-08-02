@@ -7,5 +7,5 @@
 'OutPut message box 
 MsgBox Variable  'or 
 MsgBox("String") 'or 
-MsgBox("String",Variable)
+Variable = MsgBox("String"，1,Variable) 'There has to be a variable to store the returned value ,the number in the middle indicates pre-defined message box types 
 '
