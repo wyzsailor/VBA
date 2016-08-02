@@ -40,6 +40,7 @@ End With
 End Sub
 '***************************************************************************************************************************
 'The following code I modified  works good ,and I commented them heavily based on my understanding . 
+
 Option Explicit 'means no implicit variable declaration is allowed
 Sub CheckRowsWithAutofilter()
 'declare the objects we may need later
@@ -61,17 +62,20 @@ With SheetOne
     Set DataBlock = .Range(.Cells(1, 1), .Cells(LastRow, LastCol)) 'The area we are going to process
 End With
 'Create a string array ,by using the split function
- Dim arrWsNames() As String: arrWsNames = Split("NiHong,ChinaJoy,HongKong", ",")
+ Dim arrWsNames(2) As String 'The size has to be accurate
+ Dim i As Integer
+ For i = 0 To 2  'this has to be accurate too
+ arrWsNames(i) = InputBox("Hint", "Title")
+ Next
  
-Dim arrNo As Integer
 
 'apply the autofilter to column G (i.e. column 7)
 With DataBlock  'looping and processing
-      For arrNo = 0 To 2
-     .AutoFilter Field:=5, Criteria1:=arrWsNames(arrNo)
-     .SpecialCells(xlCellTypeVisible).Copy Destination:=SheetTwo.Cells(arrNo + 1, 1) 'copy visible cells to a location
-     SheetTwo.Rows(arrNo + 1).Delete  'delete specific line on sheet two
-     Next arrNo
+      For i = 0 To 2
+     .AutoFilter Field:=5, Criteria1:=arrWsNames(i)
+     .SpecialCells(xlCellTypeVisible).Copy Destination:=SheetTwo.Cells(i + 1, 1) 'copy visible cells to a location
+     SheetTwo.Rows(i + 1).Delete  'delete specific line on sheet two
+     Next
 End With
 
 'turn off the autofiltervc
@@ -81,5 +85,6 @@ With SheetOne
 End With
 
 End Sub
+
 'I aint't going to give out the excel exmaple here ,since I almost created this myself,and besides the comments are pretty straightforward 
 
