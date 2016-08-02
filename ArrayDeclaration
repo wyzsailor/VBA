@@ -1,0 +1,31 @@
+'1 //define an array with fixed size first ,then assign the corresponding value to each variable member 
+ Dim arr(5)
+  arr(0) = "1"           'Number as String
+  arr(1) = "VBScript"    'String
+  arr(2) = 100 		   'Number
+  arr(3) = 2.45 		   'Decimal Number
+  arr(4) = #10/07/2013#  'Date
+  arr(5) = #12.45 PM#    'Time
+'1 
+
+
+'2 //use the split function ,which works for string , I've tested it . 
+
+ Dim arrWsNames() As String: arrWsNames = Split("NiHong,ChinaJoy,HongKong", ",")
+ 
+'2
+
+'3 //the dynamically way , redim , 
+ Dim a() as variant
+  redim a(5)
+  a(0)="XYZ"
+  a(1)=41.25
+  a(2)=22
+  
+  'you can change the array size later 
+   REDIM PRESERVE a(7) 
+  
+'3
+
+
+
