@@ -23,7 +23,7 @@ End With
     ReDim arrWsNames(cItem) As String 'The size has to be accurate
     Dim i As Integer
     For i = 0 To cItem  'this has to be accurate too
-    arrWsNames(i) = InputBox("This search object ranks " & cItem, "Please input search object in sequence!")
+    arrWsNames(i) = InputBox("This search object ranks " & i, "Please input search object in sequence!")
     Next
  
 
