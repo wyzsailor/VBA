@@ -1,0 +1,45 @@
+Option Explicit 'means no implicit variable declaration is allowed
+Sub CheckRowsWithAutofilter()
+
+    Dim DataBlock As Range, Dest As Range
+    Dim LastRow As Long, LastCol As Long
+    Dim SheetOne As Worksheet, SheetTwo As Worksheet
+
+
+    Set SheetOne = ThisWorkbook.Worksheets("Sheet1") 'Set a nickname for specific shee
+    Set SheetTwo = ThisWorkbook.Worksheets("Sheet2")
+
+
+With SheetOne
+    LastRow = .Range("A" & .Rows.Count).End(xlUp).Row 'get the boundary of target area
+    LastCol = .Cells(1, .Columns.Count).End(xlToLeft).Column   'get the boundary of target area
+    Set DataBlock = .Range(.Cells(1, 1), .Cells(LastRow, LastCol)) 'The area we are going to process
+End With
+    
+    Dim cItem, ColumnNo As Integer
+    cItem = InputBox("Numbers of search objects  :", "How many objects to process ? 0 means 1 ")
+    ColumnNo = InputBox("Column No. e.g. A = 1,G =5 :", "Which column to filter ?")
+
+    ReDim arrWsNames(cItem) As String 'The size has to be accurate
+    Dim i As Integer
+    For i = 0 To cItem  'this has to be accurate too
+    arrWsNames(i) = InputBox("This search object ranks " & cItem, "Please input search object in sequence!")
+    Next
+ 
+
+
+With DataBlock  'looping and processing
+     For i = 0 To cItem
+    .AutoFilter Field:=ColumnNo, Criteria1:=arrWsNames(i) '
+    .SpecialCells(xlCellTypeVisible).Copy Destination:=SheetTwo.Cells(i + 1, 1)
+    SheetTwo.Rows(i + 1).Delete
+    Next
+End With
+
+'turn off the autofiltervc
+With SheetOne
+    .AutoFilterMode = False  'Turn off the filter
+    If .FilterMode = True Then .ShowAllData  'This line actually effects nothing to this Macro
+End With
+
+End Sub
