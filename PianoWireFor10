@@ -1,0 +1,62 @@
+Option Explicit
+Sub PianoWireProcessorFor10()
+
+Dim DataBlock As Range, Dest As Range
+Dim LastRow As Long, LastCol As Long
+Dim SheetOne As Worksheet, SheetTwo As Worksheet, SheetThree As Worksheet
+
+Set SheetOne = ThisWorkbook.Worksheets("Final")
+Set SheetTwo = ThisWorkbook.Worksheets("Curveness")
+Set SheetThree = ThisWorkbook.Worksheets("Pastehere")
+
+With SheetTwo
+    LastRow = .Range("A" & .Rows.Count).End(xlUp).Row
+    LastCol = .Cells(1, .Columns.Count).End(xlToLeft).Column
+    Set DataBlock = .Range(.Cells(1, 1), .Cells(LastRow, LastCol))
+End With
+
+
+'Calling the function to return the position of the target cell
+   Dim r, c As Integer
+    For r = 32 To 41
+    c = FindMatchingValue(SheetThree.Cells(r - 30, 3), SheetOne)
+    SheetOne.Cells(r, c).Value = "X"
+        Dim SubC As Integer
+            For SubC = 7 To (c - 1)
+              SheetOne.Cells(r, SubC).Value = "O"
+            Next SubC
+    Next
+'Fitering the Curveness
+ 
+With DataBlock
+    Dim i As Integer
+     For i = 2 To 11
+    .AutoFilter Field:=1, Criteria1:=SheetThree.Cells(i, 1)
+    .SpecialCells(xlCellTypeVisible).Copy Destination:=SheetThree.Cells(i + 15, 1)
+     SheetThree.Rows(i + 15).Delete
+    Next
+End With
+
+'Copying cells
+SheetOne.Range("A32:A41").Value = SheetThree.Range("A2:A11").Value  'SerialNo
+SheetOne.Range("B32:B41").Value = SheetThree.Range("B2:B11").Value  'AssemlyNo
+SheetOne.Range("E32:F41").Value = SheetThree.Range("B17:C26").Value  'Curveness multi-column
+
+With SheetTwo
+    .AutoFilterMode = False  'Turn off the filter
+    If .FilterMode = True Then .ShowAllData  'This line actually effects nothing to this Macro
+End With
+
+
+   
+End Sub
+
+Function FindMatchingValue(intValueToFind As Integer, SheetOne As Worksheet)
+    Dim i As Integer
+    For i = 7 To 21
+        If SheetOne.Cells(31, i).Value = intValueToFind Then
+             FindMatchingValue = i
+             Exit Function
+        End If
+    Next
+End Function
