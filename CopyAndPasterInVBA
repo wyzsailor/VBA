@@ -1,0 +1,20 @@
+
+'Preassumption: SheetOne ,SheetTwo are both WorkSheet Objects :Dim SheetOne As Worksheet,  
+'Set SheetOne = ThisWorkbook.Worksheets("SheetName") 
+
+
+'Paste match the source format Method 1 
+'Use the Sheet.Rang.Copy method . set the destination format to another sheet 
+Worksheets("Sheet1").Range("A1:D4").Copy _  'The _ sign is used to indicate end of this line 
+    destination:=Worksheets("Sheet2").Range("E5")
+    
+'This will make the Source Format overlap the Destination Format 
+
+
+'Paste match the destination format Method 2 
+'Copy by values . also use the equal sing = directly 
+
+SheetOne.Range("A32:A41").Value = SheetThree.Range("A2:A11").Value
+
+'This has been tested works in office on my Windows10 
+
