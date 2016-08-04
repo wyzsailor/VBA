@@ -1,0 +1,31 @@
+'Function in VBA pretty much like how it is done in C++ , There is a local scope stuff you also need to be aware of 
+'First let me write something about accessing cell's value in VBA in Excel 
+
+'You can access this way ,Set SheetOne as WorkSheets object ,and make this object link with a specific exsiting sheet 
+'You know how to do it ,don't you ? 
+'This will return specific value even if you are in a function 
+SheetOne.Cells(RowsNo,ColumnsNo).Value  'using Cells Object  . 
+
+'or this way will work either 
+
+SheetOne.Range("A1").Value  ' using Range object .
+
+'Call a function in Sub 
+
+Sub Subname()
+Call functionname(para) 
+End Sub 
+
+Function functionname(para)  ' Public if this function is not within the same source code as the calling sub 
+'Local variable can be created here .
+End Function 
+
+'If you wanna operate on a specific sheet , you need to passing the sheet object to the function as well 
+'see the following example . 
+Call FindMatchingValue(500, SheetOne)
+
+
+End Sub
+ Function FindMatchingValue(intValueToFind As Integer, SheetOne As Worksheet)
+       MsgBox SheetOne.Range("A1").Value 'if you wanna use SheetOne , you must pass it into this function 
+End Function
