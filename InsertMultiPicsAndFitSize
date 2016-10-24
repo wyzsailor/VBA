@@ -1,0 +1,23 @@
+Sub InsertPictures()
+'Update 20140513  .I cited this on 10/24/2016 . I am about 25.5 years old .shit why I am so old now .
+Dim PicList() As Variant
+Dim PicFormat As String
+Dim Rng As Range
+Dim sShape As Shape
+On Error Resume Next
+PicList = Application.GetOpenFilename(PicFormat, MultiSelect:=True)
+xColIndex = Application.ActiveCell.Column
+If IsArray(PicList) Then
+    xRowIndex = Application.ActiveCell.Row
+    For lLoop = LBound(PicList) To UBound(PicList)
+        Set Rng = Cells(xRowIndex, xColIndex)
+        Set sShape = ActiveSheet.Shapes.AddPicture(PicList(lLoop), msoFalse, msoCTrue, Rng.Left, Rng.Top, Rng.Width, Rng.Height)
+        xRowIndex = xRowIndex + 1
+    Next
+End If
+End Sub
+
+'This code is copied from this website ,https://www.extendoffice.com/documents/excel/1156-excel-insert-multiple-pictures.html
+'It actually insert multi pics at once and resize them to fit the cell boarder exactly , which is pretty cool 
+'If you have time , try to figure out how it works , since you already created a successful VBA project yourself , So...just do it 
+'It inserts Pics in one column , try to understand it , and modify it to make it suitable for your need in you some specific cases 
