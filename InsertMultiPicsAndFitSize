@@ -5,14 +5,16 @@ Dim PicFormat As String
 Dim Rng As Range
 Dim sShape As Shape
 On Error Resume Next
-PicList = Application.GetOpenFilename(PicFormat, MultiSelect:=True)
-xColIndex = Application.ActiveCell.Column
+PicList = Application.GetOpenFilename(PicFormat, MultiSelect:=True) 'Open file open window 
+xColIndex = Application.ActiveCell.Column 'Get the Column No. of the current cell .
 If IsArray(PicList) Then
-    xRowIndex = Application.ActiveCell.Row
-    For lLoop = LBound(PicList) To UBound(PicList)
-        Set Rng = Cells(xRowIndex, xColIndex)
+    xRowIndex = Application.ActiveCell.Row   'This line can actually be putted before the if statement .it just gets the current row No.
+    For lLoop = LBound(PicList) To UBound(PicList) 'Picture array loop , No matter how you select them ,it will always rank in alphabetical
+    'Order , which is quite annoying .I am trying to figure out how to modify it ,to meet my needs .
+        Set Rng = Cells(xRowIndex, xColIndex) 'Set the single cell ,in which you wanna resize your pic 
         Set sShape = ActiveSheet.Shapes.AddPicture(PicList(lLoop), msoFalse, msoCTrue, Rng.Left, Rng.Top, Rng.Width, Rng.Height)
-        xRowIndex = xRowIndex + 1
+        'resizing your pic ,the last 4 parameters indicate the shape you need ,I think this is the most important part of this VBA code .
+        xRowIndex = xRowIndex + 1  'change the location of your target cell .
     Next
 End If
 End Sub
