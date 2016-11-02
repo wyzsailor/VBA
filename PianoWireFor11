@@ -1,0 +1,70 @@
+Option Explicit
+Sub PianoWireProcessorFor11()
+
+'Define variables
+Dim DataBlock As Range, Dest As Range
+Dim LastRow As Long, LastCol As Long
+Dim SheetOne As Worksheet, SheetTwo As Worksheet, SheetThree As Worksheet
+
+Set SheetOne = ThisWorkbook.Worksheets("Final")
+Set SheetTwo = ThisWorkbook.Worksheets("Curveness")
+Set SheetThree = ThisWorkbook.Worksheets("Pastehere")
+
+
+'Working with the sheet curveness
+With SheetTwo
+    LastRow = .Range("A" & .Rows.Count).End(xlUp).Row 'Return the last row number of this range
+    LastCol = .Cells(1, .Columns.Count).End(xlToLeft).Column 'Return the last column numbher of this range
+    Set DataBlock = .Range(.Cells(1, 1), .Cells(LastRow, LastCol)) 'Set the range scope
+End With
+
+
+'Calling the function to return the position of the target cell
+   Dim r, c As Integer 'C means Column No. here
+    For r = 32 To 42   'Change r value to meet the need
+    c = FindMatchingValue(SheetThree.Cells(r - 30, 3), SheetOne)
+    SheetOne.Cells(r, c).Value = "X"
+        Dim SubC As Integer
+            For SubC = 7 To (c - 1)
+              SheetOne.Cells(r, SubC).Value = "O"
+            Next SubC
+    Next
+'Fitering the Curveness
+ 
+With DataBlock
+    Dim i As Integer   'This for loop defines how much values you need to process
+     For i = 2 To 12   'Change here to add more row items into your processing
+    .AutoFilter Field:=1, Criteria1:=SheetThree.Cells(i, 1)
+    .SpecialCells(xlCellTypeVisible).Copy Destination:=SheetThree.Cells(i + 15, 1)
+     SheetThree.Rows(i + 15).Delete
+    Next
+End With
+
+'Copying cells
+SheetOne.Range("A32:A42").Value = SheetThree.Range("A2:A12").Value  'SerialNo
+SheetOne.Range("B32:B42").Value = SheetThree.Range("B2:B12").Value  'AssemlyNo
+SheetOne.Range("E32:F42").Value = SheetThree.Range("B17:C27").Value  'Curveness multi-column
+
+With SheetTwo
+    .AutoFilterMode = False  'Turn off the filter
+    If .FilterMode = True Then .ShowAllData  'This line actually effects nothing to this Macro
+End With
+
+
+   
+End Sub
+
+Function FindMatchingValue(intValueToFind As Integer, SheetOne As Worksheet)
+    Dim i As Integer
+    For i = 7 To 21
+        If SheetOne.Cells(31, i).Value = intValueToFind Then
+             FindMatchingValue = i
+             Exit Function
+        End If
+    Next
+End Function
+
+
+'Written by Yuzhen.Wang 2016 @Fuji.Eletric
+
+
