@@ -1,0 +1,13 @@
+Sub ToggleGridLines()
+
+Dim bDisplay As Boolean
+bDisplay = ActiveWindow.DisplayGridlines
+If bDisplay = True Then
+   ActiveWindow.DisplayGridlines = False
+Else
+   ActiveWindow.DisplayGridlines = True
+End If
+
+End Sub
+
+'All rights reserved @ Yuzhen ,LOL  8:14 PM 12/9/2016
