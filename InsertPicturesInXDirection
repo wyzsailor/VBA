@@ -1,0 +1,26 @@
+Sub InsertPicturesInXDirection()
+'Update 20140513  .I cited this on 10/24/2016 . I am about 25.5 years old .shit why I am so old now .
+
+Dim PicList() As Variant
+Dim PicFormat As String
+Dim Rng As Range
+Dim sShape As Shape
+
+
+On Error Resume Next
+PicList = Application.GetOpenFilename(PicFormat, MultiSelect:=True) 'Open file open window
+
+xRowIndex = Application.ActiveCell.Row 'Get the Column No. of the current cell .
+
+If IsArray(PicList) Then
+    yColumnIndex = Application.ActiveCell.Column   'This line can actually be putted before the if statement .it just gets the current row No.
+    For lLoop = LBound(PicList) To UBound(PicList) 'Picture array loop , No matter how you select them ,it will always rank in alphabetical
+    'Order , which is quite annoying .I am trying to figure out how to modify it ,to meet my needs .
+        Set Rng = Cells(xRowIndex, yColumnIndex) 'Set the single cell ,in which you wanna resize your pic
+        Set sShape = ActiveSheet.Shapes.AddPicture(PicList(lLoop), msoFalse, msoCTrue, Rng.Left, Rng.Top, Rng.Width, Rng.Height)
+        'resizing your pic ,the last 4 parameters indicate the shape you need ,I think this is the most important part of this VBA code .
+        yColumnIndex = yColumnIndex + 1  'change the location of your target cell .
+    Next
+End If
+End Sub
+
